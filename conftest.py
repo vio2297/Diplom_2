@@ -1,33 +1,7 @@
-from data import ResponseStatus, UserData
 from helpers import Helpers
 import pytest
 import requests
 from urls import CREATE_USER_ENDPOINT, BASE_URL, LOGIN_USER_ENDPOINT, DELETE_USER
-
-
-@pytest.fixture
-def unique_user():
-    user_data = Helpers.generate_user_body()
-    response = requests.post(f"{BASE_URL}{CREATE_USER_ENDPOINT}", json=user_data)
-    assert response.status_code == ResponseStatus.OK, f"Ошибка при создании пользователя: {response.text}"
-    return user_data
-
-@pytest.fixture
-def existing_user():
-    user_data = {
-        "email": UserData.EXISTING_USER_EMAIL,
-        "password": UserData.EXISTING_USER_PASSWORD,
-        "name": UserData.EXISTING_USER_NAME
-    }
-    requests.post(f"{BASE_URL}{CREATE_USER_ENDPOINT}", json=user_data)
-    return user_data
-
-@pytest.fixture
-def missing_field_user(request):
-    key_to_remove = request.param
-    user_data = Helpers.generate_user_body()
-    user_data.pop(key_to_remove)
-    return user_data, key_to_remove
 
 
 @pytest.fixture(scope='function')
