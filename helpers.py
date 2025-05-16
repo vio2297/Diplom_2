@@ -4,7 +4,7 @@ import uuid
 
 import requests
 
-from urls import GET_INGREDIENTS, BASE_URL
+from urls import GET_INGREDIENTS, BASE_URL, CREATE_USER_ENDPOINT, LOGIN_USER_ENDPOINT
 
 
 class Helpers:
@@ -47,3 +47,15 @@ class IngredientsHelper:
         assert response.status_code == 200, f"Не удалось получить ингредиенты: {response.text}"
         data = response.json()
         return [item["_id"] for item in data["data"]]
+
+class RegisterAndLogin:
+    @staticmethod
+    def register_and_login_user():
+        new_user_data = Helpers.generate_user_body()
+        register_response = requests.post(f"{BASE_URL}{CREATE_USER_ENDPOINT}", json=new_user_data)
+        login_data = {
+            "email": new_user_data["email"],
+            "password": new_user_data["password"]
+        }
+        login_response = requests.post(f"{BASE_URL}{LOGIN_USER_ENDPOINT}", json=login_data)
+        return register_response, login_response, new_user_data

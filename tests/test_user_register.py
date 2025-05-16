@@ -2,6 +2,7 @@ import allure
 import pytest
 import requests
 import data
+from conftest import create_and_login_user
 from data import ResponseStatus, UserData
 from helpers import Helpers
 from urls import BASE_URL, CREATE_USER_ENDPOINT
@@ -9,14 +10,11 @@ from urls import BASE_URL, CREATE_USER_ENDPOINT
 class TestUserRegister:
     @allure.title("Успешная регистрация пользователя")
     @allure.description("Создание пользователя. Проверка статуса ответа и тела ответа")
-    def test_success_registration(self):
-        with allure.step("Генерация данных пользователя"):
-            user = Helpers.generate_user_body()
-        with allure.step("Отправка запроса на регистрацию пользователя"):
-            response = requests.post(f"{BASE_URL}{CREATE_USER_ENDPOINT}", json=user)
+    def test_success_registration(self, create_and_login_user):
+        token, email, password, register_response, login_response, user_data = create_and_login_user
         with allure.step("Проверка успешного ответа"):
-            assert response.status_code == ResponseStatus.OK, f"Статус: {response.status_code}, текст: {response.text}"
-            assert response.json().get("success") is True, f"Ответ: {response.json()}"
+            assert register_response.status_code == ResponseStatus.OK, f"Статус: {register_response.status_code}, текст: {register_response.text}"
+            assert register_response.json().get("success") is True, f"Ответ: {register_response.json()}"
 
 
     @allure.title("Получение ошибки при попытке создать уже зарегистриованого пользователя")

@@ -10,7 +10,7 @@ class TestCreateOrder:
     @allure.title("Создание заказа авторизированным пользователем с ингредиентами ")
     @allure.description("Авторизирование в системе и создание заказа, получение кода 200 ")
     def test_success_order_creation_with_auth_user(self, create_and_login_user):
-        token, _, _ = create_and_login_user
+        token = create_and_login_user[0]
 
         headers = {
                 "Authorization": token,
@@ -55,7 +55,7 @@ class TestCreateOrder:
     @allure.title("Создание заказа с авторизированным пользователям но без ингредиентов ")
     @allure.description("Авторизированный пользователь создает заказ без ингредиентов")
     def test_create_order_with_auth_user_without_ingredients(self,create_and_login_user):
-        token, _, _ = create_and_login_user
+        token = create_and_login_user[0]
 
         headers = {
             "Authorization": token,
@@ -89,7 +89,7 @@ class TestCreateOrder:
     @allure.title("Создание заказа для авторизированного пользователя и с невалидным ингредиентом ")
     @allure.description("Проверка наличия сообщение об ошибке и коде 500 при попытке создать заказ с невалидным ингредиентом")
     def test_create_order_with_invalid_ingredient(self,create_and_login_user):
-        token, _, _ = create_and_login_user
+        token = create_and_login_user[0]
 
         with allure.step("Создание заказа"):
             headers = {
