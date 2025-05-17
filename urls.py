@@ -1,0 +1,8 @@
+BASE_URL = 'https://stellarburgers.nomoreparties.site'
+CREATE_USER_ENDPOINT = '/api/auth/register'
+LOGIN_USER_ENDPOINT = '/api/auth/login'
+CREATE_ORDER_ENDPOINT = '/api/orders'
+CHANGE_USER_DATA = '/api/auth/user'
+GET_USER_ORDERS = '/api/orders'
+DELETE_USER = '/api/auth/user'
+GET_INGREDIENTS = '/api/ingredients'
